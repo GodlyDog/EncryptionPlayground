@@ -71,18 +71,32 @@ class EncryptionUnitTests(unittest.TestCase):
         hello = encryption.string_to_ascii("hello")
         self.assertEqual(hello, [104, 101, 108, 108, 111])
 
-    # key generation is correct 98.7% of the time over 1000 trials -_-
+    def test_key_validation(self):
+        n = 116267
+        e = 311
+        d = 743
+        valid = encryption.key_validation(n, e, d)
+        self.assertTrue(valid)
+        n = 137549
+        e = 853
+        d = 481
+        valid = encryption.key_validation(n, e, d)
+        self.assertTrue(valid)
+
+    # key generation takes forever, 100 tests takes 11 minutes. Accuracy seems to be 1.0 after some tweaking and
+    # key validation
     def test_encrypt_decrypt(self):
-        num_tests = 1000
+        num_tests = 100
         fuzz = 0
         correct = 0
         while fuzz < num_tests:
             n, e, d = encryption.generate_rsa_keys()
-            hello = encryption.string_to_ascii("hello")
-            encrypted = encryption.encrypt(hello, n, e)
+            test = encryption.string_to_ascii("abcdefg")
+            encrypted = encryption.encrypt(test, n, e)
             decrypted = encryption.decrypt(encrypted, n, d)
-            hello_again = encryption.ascii_list_to_string(decrypted)
-            if hello_again == "hello":
+            test_again = encryption.ascii_list_to_string(decrypted)
+            if test_again == "abcdefg":
+                print("Fuzz " + str(fuzz) + " passed")
                 correct += 1
             else:
                 print("Fuzz failure on " + str(fuzz))
@@ -92,6 +106,7 @@ class EncryptionUnitTests(unittest.TestCase):
                 print("Encrypted: " + ''.join(str(encrypt) + ', ' for encrypt in encrypted))
                 print("Decrypted: " + ''.join(str(decrypt) + ', ' for decrypt in decrypted))
             fuzz += 1
+            self.assertEqual(test_again, "abcdefg")
         accuracy = correct / num_tests
         print("Total Accuracy: " + str(accuracy))
 

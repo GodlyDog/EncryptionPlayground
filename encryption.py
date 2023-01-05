@@ -7,6 +7,8 @@ MAX_ED = HIGH ** 2
 MIN_E = 284
 MIN_D = 284
 
+ACCEPTED_CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!"#$%&()*+,-./:;<=>?@[\]^_`{|}~'
+
 
 def is_prime(x):
     if x == 2:
@@ -15,6 +17,15 @@ def is_prime(x):
         if x % i == 0:
             return False
     return True
+
+
+def key_validation(n, e, d):
+    message = ACCEPTED_CHARACTERS
+    ascii_message = string_to_ascii(message)
+    encrypted = encrypt(ascii_message, n, e)
+    decrypted = decrypt(encrypted, n, d)
+    returned_message = ascii_list_to_string(decrypted)
+    return returned_message == message
 
 
 def prime_generator():
@@ -54,7 +65,8 @@ def generate_rsa_keys():
     n = 0
     e = 0
     d = 0
-    while (len(eds) < 4) or (n < 1000) or (e < MIN_E) or (d < MIN_D):
+    key_valid = False
+    while (len(eds) < 4) or (n < 1000) or (e < MIN_E) or (d < MIN_D) or not key_valid:
         primes = prime_generator()
         p = random.choice(primes)
         q = random.choice(primes)
@@ -70,6 +82,7 @@ def generate_rsa_keys():
             ed = 0
             e = 0
             d = 0
+        key_valid = key_validation(n, e, int(d))
     return n, e, int(d)
 
 
@@ -84,7 +97,7 @@ def encrypt(message, n, e):
 
 
 def decrypt(message, n, d):
-    decrypted = [character ** d % n for character in message]
+    decrypted = [character ** d % n % 255 for character in message]
     return decrypted
 
 
