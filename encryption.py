@@ -7,7 +7,7 @@ MAX_ED = HIGH ** 2
 MIN_E = 284
 MIN_D = 284
 
-ACCEPTED_CHARACTERS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!"#$%&()*+,-./:;<=>?@[\]^_`{|}~'
+ACCEPTED_CHARACTERS = 'a b  cdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!"#$%&()*+,-./:;<=>?@[\]^_`{|}~'
 
 
 def is_prime(x):
