@@ -94,6 +94,8 @@ class EncryptionUnitTests(unittest.TestCase):
             test = encryption.string_to_ascii("abcdefg")
             encrypted = encryption.encrypt(test, n, e)
             decrypted = encryption.decrypt(encrypted, n, d)
+            self.assertNotEqual(test, encrypted)
+            self.assertNotEqual(encrypted, decrypted)
             test_again = encryption.ascii_list_to_string(decrypted)
             if test_again == "abcdefg":
                 print("Fuzz " + str(fuzz) + " passed")

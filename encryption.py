@@ -7,6 +7,10 @@ MAX_ED = HIGH ** 2
 MIN_E = 284
 MIN_D = 284
 
+# for actually decent encryption, LOW would need to be roughly 2^500 and HIGH would need to be roughly 2^512
+# considerations for the other variables would also probably be necessary
+# padding would also be necessary, and defense against Wiener's attack also necessary
+
 ACCEPTED_CHARACTERS = 'a b  cdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!"#$%&()*+,-./:;<=>?@[\]^_`{|}~'
 
 

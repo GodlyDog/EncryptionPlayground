@@ -17,6 +17,9 @@ def messaging(s, keys):
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     sock.connect((HOST, PORT))
+    connection_type = "client"
+    connection_type = connection_type.encode('UTF-8')
+    sock.sendall(connection_type)
     server_data = sock.recv(4096)
     server_keys = eval(server_data.decode('UTF-8'))
     print(server_keys)
